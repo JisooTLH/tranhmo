@@ -131,7 +131,7 @@ Sử dụng để báo cáo các trường hợp tranh mỏ, ăn sai giờ, sai 
         maxlength="500"
         oninput="updateCounter()"
     ></textarea>
-    
+    window.updateCounter = function(){ const text = document.getElementById("description").value; document.getElementById("charCounter") .innerText = ${text.length} / 500 ký tự; }
     <div
         id="charCounter"
         style="

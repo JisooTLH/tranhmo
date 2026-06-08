@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TLH - Báo Cáo Tranh Mỏ</title>
+<title>TLH - Báo Cáo Vi Phạm</title>
 
 <style>
 body{
@@ -102,10 +102,10 @@ button{
 
 <body>
 
-<h1>HỆ THỐNG BÁO CÁO TRANH MỎ TLH</h1>
+<h1>HỆ THỐNG BÁO CÁO VI PHẠM TẠI TLH</h1>
 
 <div class="note">
-Chỉ sử dụng để báo cáo các trường hợp tranh mỏ trong bang.
+Sử dụng để báo cáo các trường hợp tranh mỏ, ăn sai giờ, sai khu vực... trong bang.
 </div>
 
 <div class="admin-bar">
@@ -204,10 +204,12 @@ window.submitTicket = async function(){
     const reporter =
         document.getElementById("reporter")
         .value.trim();
+        .replace(/[^a-zA-Z0-9À-ỹ _-]/g,'');
 
     const offender =
         document.getElementById("offender")
         .value.trim();
+        .replace(/[^a-zA-Z0-9À-ỹ _-]/g,'');
 
     const description =
         document.getElementById("description")
@@ -229,12 +231,13 @@ window.submitTicket = async function(){
     }
 
     await push(ref(db,"tickets"),{
-        reporter,
-        offender,
-        description,
-        imageUrl,
-        status:"open",
-        createdAt:Date.now()
+    reporter,
+    offender,
+    description,
+    imageUrl,
+    status:"open",
+    createdAt:Date.now(),
+    createdText:new Date().toLocaleString("vi-VN")
     });
 
     document.getElementById("reporter").value="";
@@ -284,7 +287,7 @@ function renderTickets(tickets){
 
     let html = "";
 
-    tickets.forEach(ticket=>{
+    tickets.forEach((ticket,index)=>{
 
         if(ticket.status === "deleted"){
             return;
@@ -298,14 +301,35 @@ function renderTickets(tickets){
         html += `
         <div class="ticket">
 
+            <div style="
+                font-size:20px;
+                font-weight:bold;
+                margin-bottom:10px;
+                color:#c0392b;
+            ">
+                Ticket #${tickets.length - index}
+            </div>
+
             <div>
                 <b>Người gửi:</b>
                 ${ticket.reporter}
             </div>
 
-            <div>
+           <div>
                 <b>Người vi phạm:</b>
                 ${ticket.offender}
+
+                <button
+                style="margin-left:10px;"
+                onclick="navigator.clipboard.writeText('${ticket.offender}')"
+                >
+                Copy
+                </button>
+            </div>
+            
+            <div>
+                <b>Thời gian:</b>
+                ${ticket.createdText || ""}
             </div>
 
             <div style="margin-top:8px;">

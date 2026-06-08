@@ -201,7 +201,23 @@ async function uploadToImgBB(file){
 }
 
 window.submitTicket = async function(){
-
+    const lastSubmit =
+        Number(localStorage.getItem("lastSubmit") || 0);
+    
+    if(Date.now() - lastSubmit < 90000){
+    
+        const remain =
+            Math.ceil(
+                (90000 - (Date.now() - lastSubmit))
+                / 1000
+            );
+    
+        alert(
+            `Bạn vừa gửi ticket. Vui lòng đợi ${remain} giây nữa.`
+        );
+    
+        return;
+    }
     const reporter =
         document.getElementById("reporter")
         .value.trim();
@@ -243,7 +259,12 @@ window.submitTicket = async function(){
     document.getElementById("offender").value="";
     document.getElementById("description").value="";
     document.getElementById("evidence").value="";
+    localStorage.setItem(
+        "lastSubmit",
+        Date.now()
+    );
 
+alert("Đã gửi ticket");
     alert("Đã gửi ticket");
 }
 

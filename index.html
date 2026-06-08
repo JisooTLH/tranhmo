@@ -125,14 +125,23 @@ Sử dụng để báo cáo các trường hợp tranh mỏ, ăn sai giờ, sai 
     <input type="text" id="offender">
 
     <label>Mô tả sự việc</label>
-    <textarea
+      <textarea
         id="description"
         rows="4"
         maxlength="500"
         oninput="updateCounter()"
     ></textarea>
-
-    <div id="charCounter">
+    
+    <div
+        id="charCounter"
+        style="
+            text-align:right;
+            color:#666;
+            margin-top:-10px;
+            margin-bottom:15px;
+            font-size:12px;
+        "
+    >
     0 / 500 ký tự
     </div>
 

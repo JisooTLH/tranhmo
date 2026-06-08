@@ -125,7 +125,16 @@ Sử dụng để báo cáo các trường hợp tranh mỏ, ăn sai giờ, sai 
     <input type="text" id="offender">
 
     <label>Mô tả sự việc</label>
-    <textarea id="description" rows="4"></textarea>
+    <textarea
+        id="description"
+        rows="4"
+        maxlength="500"
+        oninput="updateCounter()"
+    ></textarea>
+
+    <div id="charCounter">
+    0 / 500 ký tự
+    </div>
 
     <label>Ảnh chứng cứ</label>
     <input type="file" id="evidence" accept="image/*">
